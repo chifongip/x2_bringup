@@ -46,6 +46,7 @@ def test_state_launch_owns_only_shared_state_nodes():
         {
             "use_fake_hardware": "false",
             "command_transport": "zmq",
+            "initial_arm_command_mode": "zero",
             "zmq_endpoint": "tcp://*:8559",
             "leg_state_topic": "/aima/hal/joint/leg/state",
             "waist_state_topic": "/aima/hal/joint/waist/state",
@@ -108,6 +109,7 @@ def test_hardware_topic_overrides_are_preserved():
     root = expand(
         use_fake_hardware="false",
         command_transport="zmq",
+        initial_arm_command_mode="zero",
         arm_state_topic="/x2_test/aima/hal/joint/arm/state",
     )
     parameters = {
@@ -115,6 +117,7 @@ def test_hardware_topic_overrides_are_preserved():
         for item in root.findall("ros2_control/hardware/param")
     }
     assert parameters["command_transport"] == "zmq"
+    assert parameters["initial_arm_command_mode"] == "zero"
     assert parameters["zmq_endpoint"] == "tcp://*:8559"
     assert parameters["leg_state_topic"] == "/aima/hal/joint/leg/state"
     assert parameters["waist_state_topic"] == "/aima/hal/joint/waist/state"

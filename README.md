@@ -20,6 +20,11 @@ When the shared state launch is already running, start MoveIt or manipulation
 with `start_state_bringup:=false` so it consumes the existing `/joint_states`
 and TF topics instead of starting a second controller manager.
 
+`initial_arm_command_mode` belongs to the hardware instance. Therefore, when
+using `start_state_bringup:=false`, pass `initial_arm_command_mode:=zero` to
+the original `state_publisher.launch.py` command; a later MoveIt or
+manipulation launch cannot change it.
+
 For applications that already own `/joint_states` and only need link TF, use
 the passive launch:
 
