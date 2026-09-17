@@ -10,8 +10,8 @@
     <xacro:arg name="waist_state_topic" default="/aima/hal/joint/waist/state" />
     <xacro:arg name="arm_state_topic" default="/aima/hal/joint/arm/state" />
     <xacro:arg name="head_state_topic" default="/aima/hal/joint/head/state" />
-    <xacro:arg name="left_hand_pad_origin" default="0 0 -0.13" />
-    <xacro:arg name="right_hand_pad_origin" default="0 0 -0.13" />
+    <xacro:arg name="left_hand_pad_origin" default="0 -0.02 -0.13" />
+    <xacro:arg name="right_hand_pad_origin" default="0 0.02 -0.13" />
     <xacro:property name="hand_pad_thickness" value="0.012" />
     <xacro:property name="hand_pad_width" value="0.08" />
     <xacro:property name="hand_pad_height" value="0.10" />
