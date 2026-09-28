@@ -1,15 +1,15 @@
-# Default initial positions for x2_ultra's ros2_control fake system
+# Ready arm positions used by mock hardware and the ready startup command mode
 initial_positions:
-  left_elbow_joint: 0
-  left_shoulder_pitch_joint: 0
-  left_shoulder_roll_joint: 0
+  left_elbow_joint: -0.87
+  left_shoulder_pitch_joint: 0.35
+  left_shoulder_roll_joint: 0.1
   left_shoulder_yaw_joint: 0
   left_wrist_pitch_joint: 0
   left_wrist_roll_joint: 0
   left_wrist_yaw_joint: 0
-  right_elbow_joint: 0
-  right_shoulder_pitch_joint: 0
-  right_shoulder_roll_joint: 0
+  right_elbow_joint: -0.87
+  right_shoulder_pitch_joint: 0.35
+  right_shoulder_roll_joint: -0.1
   right_shoulder_yaw_joint: 0
   right_wrist_pitch_joint: 0
   right_wrist_roll_joint: 0

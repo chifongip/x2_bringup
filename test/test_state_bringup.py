@@ -125,6 +125,29 @@ def test_hardware_topic_overrides_are_preserved():
     assert parameters["head_state_topic"] == "/aima/hal/joint/head/state"
 
 
+def test_default_ready_values_match_mock_initial_states_and_real_control_config():
+    with (CONFIG_DIR / "initial_positions.yaml").open(encoding="utf-8") as stream:
+        positions = yaml.safe_load(stream)["initial_positions"]
+    expected = {name: 0.0 for name in positions}
+    expected.update({
+        "left_shoulder_pitch_joint": 0.35,
+        "right_shoulder_pitch_joint": 0.35,
+        "left_elbow_joint": -0.87,
+        "right_elbow_joint": -0.87,
+        "left_shoulder_roll_joint": 0.1,
+        "right_shoulder_roll_joint": -0.1,
+    })
+    assert positions == expected
+    for fake in ("true", "false"):
+        root = expand(use_fake_hardware=fake)
+        if fake == "false":
+            assert root.findtext("ros2_control/hardware/param[@name='initial_arm_command_mode']") == "ready"
+        for joint in root.findall("ros2_control/joint"):
+            if joint.get("name") in expected:
+                initial = joint.findtext("state_interface[@name='position']/param[@name='initial_value']")
+                assert float(initial) == expected[joint.get("name")]
+
+
 def test_controller_configuration_preserves_state_delivery_headroom():
     with (CONFIG_DIR / "ros2_controllers.yaml").open(encoding="utf-8") as stream:
         config = yaml.safe_load(stream)

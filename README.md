@@ -21,7 +21,7 @@ with `start_state_bringup:=false` so it consumes the existing `/joint_states`
 and TF topics instead of starting a second controller manager.
 
 `initial_arm_command_mode` belongs to the hardware instance. Therefore, when
-using `start_state_bringup:=false`, pass `initial_arm_command_mode:=zero` to
+using `start_state_bringup:=false`, select `initial_arm_command_mode` on
 the original `state_publisher.launch.py` command; a later MoveIt or
 manipulation launch cannot change it.
 
@@ -34,3 +34,10 @@ ros2 launch x2_bringup rsp.launch.py
 
 Unlike `state_publisher.launch.py`, the passive launch never starts hardware,
 a controller manager, or a joint-state broadcaster.
+
+The default startup mode is `ready`, with arm positions supplied by
+`config/initial_positions.yaml`. Mock hardware uses these as its initial states;
+real hardware uses them as the first controller-claim targets and continues to
+report measured states. Choose `initial_arm_command_mode:=measured` or `:=zero`
+explicitly to override the startup target. Ready values match MoveIt's `ready`
+SRDF state; changes to that pose must be kept consistent across the two files.
