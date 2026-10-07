@@ -5,6 +5,7 @@ from pathlib import Path
 import launch
 import launch_testing.actions
 import rclpy
+from rcl_interfaces.srv import GetParameters
 from ament_index_python.packages import get_package_share_directory
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -16,7 +17,10 @@ def generate_test_description():
         PythonLaunchDescriptionSource(
             str(bringup_path / "launch" / "state_publisher.launch.py")
         ),
-        launch_arguments={"use_fake_hardware": "true"}.items(),
+        launch_arguments={
+            "use_fake_hardware": "true",
+            "ros2_control_update_rate": "50",
+        }.items(),
     )
 
     return launch.LaunchDescription(
@@ -61,6 +65,16 @@ class TestSharedStateRuntime(unittest.TestCase):
             return expected_nodes.issubset(names)
 
         self.wait_for(pipeline_is_ready)
+
+        client = self.node.create_client(
+            GetParameters, "/controller_manager/get_parameters"
+        )
+        self.assertTrue(client.wait_for_service(timeout_sec=10.0))
+        future = client.call_async(GetParameters.Request(names=["update_rate"]))
+        rclpy.spin_until_future_complete(self.node, future, timeout_sec=10.0)
+        self.assertTrue(future.done())
+        self.assertEqual(future.result().values[0].integer_value, 50)
+        self.node.destroy_client(client)
 
         names = [
             name for name, _ in self.node.get_node_names_and_namespaces()

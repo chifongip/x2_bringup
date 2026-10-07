@@ -1,4 +1,7 @@
 from pathlib import Path
+from tempfile import NamedTemporaryFile
+
+import yaml
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
@@ -20,6 +23,18 @@ def launch_setup(context):
     control_update_rate = LaunchConfiguration("ros2_control_update_rate")
     use_fake_hardware = LaunchConfiguration("use_fake_hardware")
     package_path = Path(get_package_share_directory("x2_bringup"))
+    # A node-specific YAML value takes precedence over wildcard dictionaries.
+    # Scope the launch override explicitly without renaming hardware nodes.
+    with NamedTemporaryFile(
+        mode="w", prefix="x2_control_rate_", suffix=".yaml", delete=False
+    ) as rate_file:
+        yaml.safe_dump(
+            {"controller_manager": {"ros__parameters": {
+                "update_rate": int(control_update_rate.perform(context))
+            }}},
+            rate_file,
+        )
+        rate_file_path = rate_file.name
 
     robot_description = {
         "robot_description": ParameterValue(
@@ -65,11 +80,7 @@ def launch_setup(context):
             parameters=[
                 robot_description,
                 str(package_path / "config" / "ros2_controllers.yaml"),
-                {
-                    "update_rate": ParameterValue(
-                        control_update_rate, value_type=int
-                    )
-                },
+                rate_file_path,
             ],
         ),
         Node(
