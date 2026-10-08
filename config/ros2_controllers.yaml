@@ -40,20 +40,20 @@ dual_arm_controller:
     constraints:
       stopped_velocity_tolerance: 0.05
       goal_time: 30.0
-      left_shoulder_pitch_joint: {goal: 0.1}
-      left_shoulder_roll_joint: {goal: 0.1}
-      left_shoulder_yaw_joint: {goal: 0.1}
-      left_elbow_joint: {goal: 0.1}
-      left_wrist_yaw_joint: {goal: 0.1}
-      left_wrist_pitch_joint: {goal: 0.1}
-      left_wrist_roll_joint: {goal: 0.1}
-      right_shoulder_pitch_joint: {goal: 0.1}
-      right_shoulder_roll_joint: {goal: 0.1}
-      right_shoulder_yaw_joint: {goal: 0.1}
-      right_elbow_joint: {goal: 0.1}
-      right_wrist_yaw_joint: {goal: 0.1}
-      right_wrist_pitch_joint: {goal: 0.1}
-      right_wrist_roll_joint: {goal: 0.1}
+      left_shoulder_pitch_joint: {goal: 0.2}
+      left_shoulder_roll_joint: {goal: 0.2}
+      left_shoulder_yaw_joint: {goal: 0.2}
+      left_elbow_joint: {goal: 0.2}
+      left_wrist_yaw_joint: {goal: 0.2}
+      left_wrist_pitch_joint: {goal: 0.2}
+      left_wrist_roll_joint: {goal: 0.2}
+      right_shoulder_pitch_joint: {goal: 0.2}
+      right_shoulder_roll_joint: {goal: 0.2}
+      right_shoulder_yaw_joint: {goal: 0.2}
+      right_elbow_joint: {goal: 0.2}
+      right_wrist_yaw_joint: {goal: 0.2}
+      right_wrist_pitch_joint: {goal: 0.2}
+      right_wrist_roll_joint: {goal: 0.2}
 
 joint_state_broadcaster:
   ros__parameters:
